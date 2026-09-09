@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منظومة أكاديمية المسلم الصغير — نموذج تجريبي</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F7687">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="المسلم الصغير">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pine:#14352E;--pine-2:#1D4B40;--paper:#EFF4F1;--white:#fff;
+  --gold:#B9821C;--gold-soft:#F3E5C6;--text:#1B2C27;--muted:#5C7268;
+  --line:#D8E2DC;--jade:#1F7A5C;--jade-bg:#E3F2EA;
+  --amber:#A9770F;--amber-bg:#FBF0D8;--red:#A8353F;--red-bg:#FAE7E8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',system-ui,sans-serif;background:var(--paper);color:var(--text);font-size:16px;line-height:1.75}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ═══ الشريط العلوي ═══ */
+.top{background:var(--pine);color:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:'Aref Ruqaa',serif;font-size:20px;color:var(--gold-soft);display:flex;align-items:center;gap:9px}
+.brand img{height:30px}
+.roles{display:flex;gap:6px;background:rgba(0,0,0,.22);padding:5px;border-radius:999px}
+.roles button{background:none;border:0;color:#B9CFC6;padding:8px 18px;border-radius:999px;cursor:pointer;font-size:15px}
+.roles button[aria-pressed="true"]{background:var(--gold);color:#241703;font-weight:700}
+.who{font-size:14px;color:#9FBDB1;text-align:start}
+.who b{display:block;color:#fff;font-size:16px;font-weight:500}
+
+/* ═══ الهيكل ═══ */
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 62px)}
+@media(max-width:840px){.shell{grid-template-columns:1fr}}
+nav{background:var(--white);border-inline-start:1px solid var(--line);padding:18px 12px}
+@media(max-width:840px){nav{border:0;border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto;padding:12px}}
+nav button{
+  display:block;width:100%;text-align:start;background:none;border:0;cursor:pointer;
+  padding:12px 16px;border-radius:10px;color:var(--muted);margin-bottom:4px;white-space:nowrap;
+}
+nav button:hover{background:var(--paper)}
+nav button[aria-current="page"]{background:var(--pine);color:#fff;font-weight:500}
+main{padding:26px 24px 60px;max-width:1100px}
+@media(max-width:520px){main{padding:20px 16px 50px}}
+
+h1{font-family:'Aref Ruqaa',serif;font-size:27px;color:var(--pine);line-height:1.5}
+.sub{color:var(--muted);font-size:15px;margin-bottom:22px}
+h2{font-size:19px;font-weight:700;margin-bottom:12px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.card h2{margin-bottom:14px}
+
+/* ═══ مؤشرات ═══ */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi .l{font-size:14px;color:var(--muted)}
+.kpi .v{font-family:'Aref Ruqaa',serif;font-size:30px;color:var(--pine);line-height:1.4}
+.kpi.warn{border-color:#E9C98F;background:var(--amber-bg)}
+.kpi.warn .v{color:var(--amber)}
+.kpi.bad{border-color:#E7B4B8;background:var(--red-bg)}
+.kpi.bad .v{color:var(--red)}
+
+/* ═══ جداول ═══ */
+table{width:100%;border-collapse:collapse}
+th{text-align:start;font-size:14px;color:var(--muted);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:12px;border-bottom:1px solid var(--line);font-size:15px;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto}
+.stu{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.av{width:34px;height:34px;border-radius:50%;background:var(--pine-2);color:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto}
+.av.lg{width:56px;height:56px;font-size:22px;font-family:'Aref Ruqaa',serif}
+
+.pill{display:inline-block;padding:3px 12px;border-radius:999px;font-size:13px;white-space:nowrap}
+.p-ok{background:var(--jade-bg);color:var(--jade)}
+.p-wait{background:var(--amber-bg);color:var(--amber)}
+.p-bad{background:var(--red-bg);color:var(--red)}
+.p-neutral{background:var(--paper);color:var(--muted)}
+
+/* ═══ أزرار ═══ */
+.b{padding:10px 20px;border-radius:9px;border:1px solid var(--line);background:var(--white);color:var(--text);cursor:pointer}
+.b:hover{background:var(--paper)}
+.b-main{background:var(--pine);color:#fff;border-color:var(--pine)}
+.b-main:hover{background:var(--pine-2)}
+.b-gold{background:var(--gold);color:#241703;border-color:var(--gold);font-weight:700}
+.b-gold:hover{background:#CE9226}
+.b-sm{padding:6px 14px;font-size:14px;border-radius:8px}
+.b-jade{background:var(--jade);color:#fff;border-color:var(--jade)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ═══ نماذج ═══ */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}}
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:6px}
+input[type=text],input[type=number],select,textarea{
+  width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;background:var(--white);color:var(--text)
+}
+textarea{min-height:88px;resize:vertical}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{padding:9px 16px;border:1px solid var(--line);background:var(--white);border-radius:999px;cursor:pointer;color:var(--muted);font-size:15px}
+.seg button[aria-pressed="true"]{background:var(--pine);color:#fff;border-color:var(--pine)}
+.err{color:var(--red);font-size:14px;margin-top:8px}
+
+.box{background:var(--paper);border-radius:11px;padding:14px 16px;margin-bottom:12px}
+.box .t{font-size:14px;color:var(--muted);margin-bottom:3px}
+.box .v{font-size:17px;font-weight:500}
+.note{background:var(--amber-bg);border-radius:11px;padding:14px 16px;font-size:15px;line-height:1.8}
+.hint{font-size:14px;color:var(--muted);margin-top:10px}
+.hidden{display:none !important}
+.back{background:none;border:0;color:var(--muted);cursor:pointer;padding:0;margin-bottom:10px;font-size:15px}
+
+/* ═══ شريط تقدم ═══ */
+.bar{height:9px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--jade);border-radius:999px}
+.bar.g i{background:var(--gold)}
+
+/* ═══ تنبيهات ═══ */
+.alert{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:11px;margin-bottom:10px;font-size:15px;line-height:1.75}
+.a-bad{background:var(--red-bg)}
+.a-warn{background:var(--amber-bg)}
+.a-ok{background:var(--jade-bg)}
+.alert .dot{width:9px;height:9px;border-radius:50%;margin-top:9px;flex:0 0 auto}
+.a-bad .dot{background:var(--red)}
+.a-warn .dot{background:var(--amber)}
+.a-ok .dot{background:var(--jade)}
+.alert b{font-weight:700}
+
+/* ═══ شاشة ولي الأمر ═══ */
+.parent{max-width:560px}
+.hero-p{background:var(--pine);color:#fff;border-radius:16px;padding:22px;margin-bottom:16px}
+.hero-p .nm{font-family:'Aref Ruqaa',serif;font-size:26px;color:var(--gold-soft)}
+.hero-p .mt{color:#9FBDB1;font-size:15px}
+.hero-p .bar{background:rgba(255,255,255,.18);margin-top:14px}
+.hero-p .pct{font-size:14px;color:#C9DAD2;margin-top:7px}
+.days{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.day{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--paper);color:var(--muted)}
+.day.on{background:var(--jade-bg);color:var(--jade)}
+.day.off{background:var(--red-bg);color:var(--red)}
+
+.banner{background:var(--gold-soft);color:#4A3405;padding:11px 20px;text-align:center;font-size:14px}
+.install{
+  background:#1F7687;color:#fff;padding:12px 20px;display:flex;align-items:center;
+  justify-content:center;gap:14px;flex-wrap:wrap;font-size:15px;text-align:center;
+}
+.install button{
+  background:#F2C14E;color:#3A2A00;border:0;padding:9px 20px;border-radius:999px;
+  font-weight:700;cursor:pointer;font-size:15px;
+}
+.install button:hover{background:#F6CC68}
+.install .x{background:none;color:#BBD3F2;font-weight:400;padding:9px 8px}
+.install .x:hover{background:none;color:#fff}
+</style>
+</head>
+<body>
+
+<div class="banner">نموذج تجريبي للعرض — البيانات وهمية ولا تُحفظ عند إغلاق الصفحة</div>
+
+<div class="install hidden" id="installBar">
+  <span id="installTxt">ثبّت المنظومة على جهازك لتفتحها كتطبيق</span>
+  <button id="installBtn">تثبيت</button>
+  <button class="x" id="installNo">لاحقاً</button>
+</div>
+
+<div class="top">
+  <div class="brand"><img src="logo.png" alt="" onerror="this.remove()"><span>المسلم الصغير</span></div>
+  <div class="roles" role="group" aria-label="اختيار الدور">
+    <button data-role="teacher" aria-pressed="true">المعلم</button>
+    <button data-role="admin" aria-pressed="false">المشرف</button>
+    <button data-role="parent" aria-pressed="false">ولي الأمر</button>
+  </div>
+  <div class="who"><b id="whoName">الشيخ محمد عبد الرحمن</b><span id="whoRole">معلم</span></div>
+</div>
+
+<div class="shell">
+  <nav id="nav"></nav>
+  <main id="view"></main>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   بيانات تجريبية — استبدلها لاحقاً بقاعدة بيانات حقيقية
+   ══════════════════════════════════════════════════ */
+var DB = {
+  students:[
+    {id:1,name:"أحمد محمد",level:"متوسط",teacher:"محمد عبد الرحمن",parent:"أبو أحمد",country:"السعودية",
+     surah:"البقرة",lastPos:"٣٥",newFrom:31,newTo:35,revFrom:1,revTo:30,nextFrom:36,nextTo:40,
+     done:62,attend:["on","on","on","off","on","on","on","on"],risk:"ok",
+     note:"ممتاز في الحفظ الجديد، لكنه يخلط بين آيتي ٢٢ و ٤٤.",
+     log:[{d:"٢٩ أغسطس",t:"تسميع ٢٦–٣٠",r:"ممتاز"},{d:"٢٧ أغسطس",t:"حفظ ٢١–٢٥",r:"جيد"},{d:"٢٥ أغسطس",t:"مراجعة جزء عم",r:"ممتاز"}]},
+    {id:2,name:"سارة علي",level:"تمهيدي",teacher:"أسماء إبراهيم",parent:"أم سارة",country:"الكويت",
+     surah:"البقرة",lastPos:"٢٠",newFrom:21,newTo:30,revFrom:1,revTo:20,nextFrom:31,nextTo:35,
+     done:34,attend:["on","on","on","on","on","on","on","on"],risk:"ok",
+     note:"تحسّن واضح في مخارج الحروف هذا الأسبوع.",
+     log:[{d:"٢٩ أغسطس",t:"حفظ ٢١–٣٠",r:"ممتاز"},{d:"٢٦ أغسطس",t:"مراجعة ١–٢٠",r:"جيد"}]},
+    {id:3,name:"مريم أحمد",level:"تمهيدي",teacher:"أسماء إبراهيم",parent:"أم مريم",country:"قطر",
+     surah:"جزء عمّ",lastPos:"النبأ",newFrom:1,newTo:20,revFrom:1,revTo:15,nextFrom:21,nextTo:30,
+     done:48,attend:["on","off","on","off","on","on","off","on"],risk:"warn",
+     note:"غابت مرتين هذا الأسبوع، والمراجعة ضعفت.",
+     log:[{d:"٢٨ أغسطس",t:"مراجعة جزء عم",r:"يحتاج مراجعة"}]},
+    {id:4,name:"محمد خالد",level:"متقدم",teacher:"عمر السيد",parent:"أبو خالد",country:"الإمارات",
+     surah:"آل عمران",lastPos:"٧٠",newFrom:71,newTo:80,revFrom:40,revTo:70,nextFrom:81,nextTo:90,
+     done:78,attend:["on","on","off","off","off","on","off","off"],risk:"bad",
+     note:"انقطاع متكرر منذ أسبوعين، ولم يرد ولي الأمر على الرسائل.",
+     log:[{d:"٢٤ أغسطس",t:"اختبار + مراجعة",r:"جيد"}]}
+  ],
+  today:[
+    {time:"٠٤:٠٠ م",sid:1,task:"تسميع: البقرة ١–٢٠",state:"قادم"},
+    {time:"٠٥:٠٠ م",sid:2,task:"حفظ جديد: البقرة ٢١–٣٠",state:"قادم"},
+    {time:"٠٦:٠٠ م",sid:3,task:"مراجعة: جزء عمّ",state:"قادم"},
+    {time:"٠٧:٠٠ م",sid:4,task:"اختبار + مراجعة",state:"قادم"}
+  ],
+  teachers:[
+    {name:"محمد عبد الرحمن",students:14,punctual:98,reports:100,rating:"٤٫٩",state:"ok"},
+    {name:"أسماء إبراهيم",students:17,punctual:96,reports:94,rating:"٤٫٨",state:"ok"},
+    {name:"عمر السيد",students:11,punctual:82,reports:61,rating:"٤٫١",state:"warn"},
+    {name:"ياسر فتحي",students:9,punctual:71,reports:48,rating:"٣٫٦",state:"bad"}
+  ],
+  alerts:[
+    {t:"bad",h:"محمد خالد غاب ٤ حلقات من آخر ٨",p:"مؤشر تسرّب مرتفع — يحتاج اتصالاً من المشرف اليوم."},
+    {t:"bad",h:"الشيخ ياسر فتحي لم يسلّم ٥ تقارير",p:"آخر تقرير قبل ٩ أيام. أولياء الأمور لم يصلهم شيء."},
+    {t:"warn",h:"مريم أحمد: غياب مرتين هذا الأسبوع",p:"يُنصح برسالة متابعة لولي الأمر."},
+    {t:"warn",h:"٣ أولياء أمور لم يفتحوا تقرير الأسبوع",p:"التقرير غير المقروء لا يبني ثقة."},
+    {t:"ok",h:"أحمد محمد أتمّ ٦٠٪ من خطته الشهرية",p:"مناسب لطلب رأي ولي الأمر ونشره كشهادة."}
+  ]
+};
+
+var NAV = {
+  teacher:[["day","لوحة اليوم"],["students","طلابي"],["session","الحصة الجارية"]],
+  admin:[["over","النظرة العامة"],["alerts","التنبيهات"],["teachers","المعلمون"],["allstu","الطلاب"]],
+  parent:[["home","متابعة ابني"],["report","تقرير آخر حلقة"],["attend","الحضور"]]
+};
+var TITLES = {teacher:["الشيخ محمد عبد الرحمن","معلم"],admin:["أبو معاذ","مشرف عام"],parent:["أبو أحمد","ولي أمر أحمد"]};
+
+var S = {role:"teacher",screen:"day",sid:1,form:{}};
+var $ = function(i){return document.getElementById(i)};
+var stu = function(id){ return DB.students.filter(function(s){return s.id==id})[0] };
+var initial = function(n){ return n.charAt(0) };
+var esc = function(t){ return String(t).replace(/[<>&]/g,"") };
+
+/* ═══ التنقل ═══ */
+Array.prototype.forEach.call(document.querySelectorAll(".roles button"), function(b){
+  b.onclick = function(){
+    Array.prototype.forEach.call(document.querySelectorAll(".roles button"),function(x){x.setAttribute("aria-pressed","false")});
+    b.setAttribute("aria-pressed","true");
+    S.role = b.dataset.role;
+    S.screen = NAV[S.role][0][0];
+    $("whoName").textContent = TITLES[S.role][0];
+    $("whoRole").textContent = TITLES[S.role][1];
+    render();
+  };
+});
+
+function nav(){
+  $("nav").innerHTML = NAV[S.role].map(function(n){
+    return '<button data-s="'+n[0]+'"'+(S.screen==n[0]?' aria-current="page"':'')+'>'+n[1]+'</button>';
+  }).join("");
+  Array.prototype.forEach.call($("nav").children, function(b){
+    b.onclick = function(){ S.screen = b.dataset.s; render() };
+  });
+}
+
+function go(sc,id){ S.screen=sc; if(id) S.sid=id; render(); window.scrollTo(0,0) }
+
+function render(){
+  nav();
+  var v = $("view");
+  var fn = ({
+    teacher:{day:tDay,students:tStudents,session:tSession,profile:tProfile},
+    admin:{over:aOver,alerts:aAlerts,teachers:aTeachers,allstu:aStudents,profile:tProfile},
+    parent:{home:pHome,report:pReport,attend:pAttend}
+  })[S.role][S.screen];
+  v.innerHTML = fn();
+  bind();
+}
+
+/* ══════════════ شاشات المعلم ══════════════ */
+function tDay(){
+  var rows = DB.today.map(function(r){
+    var s = stu(r.sid);
+    var cls = r.state=="تمت" ? "p-ok" : r.state=="ملغاة" ? "p-bad" : "p-wait";
+    return '<tr><td>'+r.time+'</td>'
+      +'<td><span class="stu"><span class="av">'+initial(s.name)+'</span>'+s.name+'</span></td>'
+      +'<td>'+r.task+'</td>'
+      +'<td><span class="pill '+cls+'">'+r.state+'</span></td>'
+      +'<td>'+(r.state=="تمت"?'<button class="b b-sm" data-go="profile" data-id="'+s.id+'">التقرير</button>'
+                             :'<button class="b b-sm b-main" data-start="'+s.id+'">ابدأ الحصة</button>')+'</td></tr>';
+  }).join("");
+  var done = DB.today.filter(function(r){return r.state=="تمت"}).length;
+  return '<h1>صباح الخير، شيخ محمد</h1><p class="sub">السبت ٢٩ أغسطس ٢٠٢٥</p>'
+   +'<div class="kpis">'
+   +kpi("حصص اليوم",DB.today.length)+kpi("تمت",done)+kpi("متبقية",DB.today.length-done)+kpi("طلابي",14)
+   +'</div>'
+   +'<div class="card"><h2>جدول اليوم</h2><div class="tw"><table><thead><tr><th>الوقت</th><th>الطالب</th><th>المطلوب</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody>'
+   +rows+'</tbody></table></div></div>';
+}
+
+function tStudents(){
+  var rows = DB.students.map(function(s){
+    return '<tr><td><span class="stu"><span class="av">'+initial(s.name)+'</span>'+s.name+'</span></td>'
+      +'<td>'+s.level+'</td><td>'+s.surah+' · '+s.lastPos+'</td>'
+      +'<td style="min-width:120px">'+bar(s.done)+'</td>'
+      +'<td>'+riskPill(s.risk)+'</td>'
+      +'<td><button class="b b-sm" data-go="profile" data-id="'+s.id+'">الملف</button></td></tr>';
+  }).join("");
+  return '<h1>طلابي</h1><p class="sub">١٤ طالباً · ٤ منهم في جدول اليوم</p>'
+   +'<div class="card"><div class="tw"><table><thead><tr><th>الطالب</th><th>المستوى</th><th>آخر موضع</th><th>خطة الشهر</th><th>الحالة</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+
+function tSession(){
+  var s = stu(S.sid), f = S.form;
+  return '<h1>حصة جارية: '+s.name+'</h1><p class="sub">٢٩ أغسطس ٢٠٢٥ · ٠٤:١٥ م</p>'
+   +'<div class="card"><h2>التسميع</h2>'
+   +'<div class="grid3">'
+   +fld("السورة",'<input type="text" id="f_surah" value="'+s.surah+'">')
+   +fld("من آية",'<input type="number" id="f_from" value="'+s.revFrom+'">')
+   +fld("إلى آية",'<input type="number" id="f_to" value="'+s.revTo+'">')
+   +'</div>'
+   +'<label style="margin-top:14px">التقييم</label>'
+   +'<div class="seg" id="rate">'
+   +['ممتاز','جيد','يحتاج مراجعة'].map(function(r){return '<button data-r="'+r+'" aria-pressed="'+(f.rate==r||(!f.rate&&r=="ممتاز")?'true':'false')+'">'+r+'</button>'}).join("")
+   +'</div><div id="rateErr" class="err hidden">اختر تقييماً</div></div>'
+
+   +'<div class="card"><h2>الحفظ الجديد</h2><div class="grid2">'
+   +fld("من آية",'<input type="number" id="n_from" value="'+s.newFrom+'">')
+   +fld("إلى آية",'<input type="number" id="n_to" value="'+s.newTo+'">')
+   +'</div></div>'
+
+   +'<div class="card"><h2>المراجعة</h2><div class="grid2">'
+   +fld("من آية",'<input type="number" id="r_from" value="'+s.revFrom+'">')
+   +fld("إلى آية",'<input type="number" id="r_to" value="'+s.revTo+'">')
+   +'</div></div>'
+
+   +'<div class="card"><h2>ملاحظة المعلم</h2>'
+   +'<textarea id="f_note" placeholder="اكتب ملاحظة يقرأها ولي الأمر والمشرف">'+(f.note||"")+'</textarea>'
+   +'<div id="noteErr" class="err hidden">اكتب ملاحظة قبل إنهاء الحصة</div>'
+   +'<p class="hint">هذه الملاحظة تظهر لولي الأمر في تقرير الحلقة، فاكتبها بلغة يفهمها.</p></div>'
+
+   +'<div class="card"><h2>المطلوب في الحصة القادمة</h2><div class="grid2">'
+   +fld("حفظ جديد",'<input type="text" id="x_new" value="'+s.nextFrom+' – '+s.nextTo+'">')
+   +fld("مراجعة",'<input type="text" id="x_rev" value="'+s.revFrom+' – '+s.revTo+'">')
+   +'</div></div>'
+
+   +'<div class="row"><button class="b b-jade" id="finish">إنهاء الحصة وإرسال التقرير</button>'
+   +'<button class="b" data-go="day">إلغاء</button></div>'
+   +'<p class="hint">عند الإنهاء يُرسل التقرير تلقائياً لولي الأمر وتُحدَّث لوحة المشرف.</p>';
+}
+
+function tProfile(){
+  var s = stu(S.sid);
+  var logs = s.log.map(function(l){
+    return '<tr><td>'+l.d+'</td><td>'+l.t+'</td><td><span class="pill '+(l.r=="ممتاز"?"p-ok":l.r=="جيد"?"p-wait":"p-bad")+'">'+l.r+'</span></td></tr>';
+  }).join("");
+  return '<button class="back" data-go="'+(S.role=="admin"?"allstu":"students")+'">‹ رجوع</button>'
+   +'<div class="card"><div class="row" style="align-items:center;gap:14px">'
+   +'<span class="av lg">'+initial(s.name)+'</span>'
+   +'<div><h1 style="font-size:24px">'+s.name+'</h1><p class="sub" style="margin:0">'+s.level+' · '+s.country+' · مع '+s.teacher+'</p></div>'
+   +'</div></div>'
+   +'<div class="card"><h2>التقدّم الحالي</h2><div class="grid3">'
+   +box("آخر موضع وصلنا إليه",s.surah+" · "+s.lastPos)
+   +box("الحفظ الجديد",s.newFrom+" – "+s.newTo)
+   +box("المراجعة",s.revFrom+" – "+s.revTo)
+   +'</div>'
+   +'<label style="margin-top:16px">خطة الشهر</label>'+bar(s.done)+'</div>'
+   +'<div class="card"><h2>آخر ملاحظة</h2><div class="note">'+s.note+'</div></div>'
+   +'<div class="card"><h2>سجل الحصص</h2><div class="tw"><table><thead><tr><th>التاريخ</th><th>ما تم</th><th>التقييم</th></tr></thead><tbody>'+logs+'</tbody></table></div></div>';
+}
+
+/* ══════════════ شاشات المشرف ══════════════ */
+function aOver(){
+  return '<h1>النظرة العامة</h1><p class="sub">السبت ٢٩ أغسطس ٢٠٢٥ · كل الأرقام لهذا الأسبوع</p>'
+   +'<div class="kpis">'
+   +kpi("حصص اليوم",42)+kpi("نسبة الحضور","٨٧٪")+kpi("حصص ملغاة",5,"warn")
+   +kpi("تقارير متأخرة",7,"bad")+kpi("طلاب في خطر تسرّب",3,"bad")+kpi("طلاب نشطون",51)
+   +'</div>'
+   +'<div class="card"><h2>يحتاج تدخّلك اليوم</h2>'
+   + DB.alerts.slice(0,3).map(alertHtml).join("")
+   +'<button class="b b-sm" data-go="alerts" style="margin-top:6px">عرض كل التنبيهات</button></div>'
+   +'<div class="card"><h2>أضعف ثلاثة مؤشرات</h2>'
+   +met("تسليم التقارير في وقتها","٧٨٪",78,"g")
+   +met("التزام المعلمين بالمواعيد","٨٩٪",89)
+   +met("فتح أولياء الأمور للتقرير","٦٤٪",64,"g")
+   +'</div>';
+}
+
+function aAlerts(){
+  return '<h1>التنبيهات</h1><p class="sub">مرتّبة بالأهم أولاً</p>'
+   +'<div class="card">'+DB.alerts.map(alertHtml).join("")+'</div>';
+}
+
+function aTeachers(){
+  var rows = DB.teachers.map(function(t){
+    return '<tr><td><span class="stu"><span class="av">'+initial(t.name)+'</span>'+t.name+'</span></td>'
+     +'<td>'+t.students+'</td><td>'+t.punctual+'٪</td><td>'+t.reports+'٪</td><td>'+t.rating+'</td>'
+     +'<td>'+riskPill(t.state)+'</td></tr>';
+  }).join("");
+  return '<h1>المعلمون</h1><p class="sub">أداء الأسبوع — الالتزام وتسليم التقارير وتقييم الأهالي</p>'
+   +'<div class="card"><div class="tw"><table><thead><tr><th>المعلم</th><th>الطلاب</th><th>الالتزام بالموعد</th><th>تسليم التقارير</th><th>تقييم الأهالي</th><th>الحالة</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+   +'<p class="hint">المعلم الذي يتأخر في التقارير هو أكثر سبب لانسحاب ولي الأمر بعد الشهر الثاني.</p></div>';
+}
+
+function aStudents(){
+  var rows = DB.students.map(function(s){
+    var miss = s.attend.filter(function(a){return a=="off"}).length;
+    return '<tr><td><span class="stu"><span class="av">'+initial(s.name)+'</span>'+s.name+'</span></td>'
+     +'<td>'+s.country+'</td><td>'+s.teacher+'</td>'
+     +'<td>'+(8-miss)+' من ٨</td>'
+     +'<td style="min-width:110px">'+bar(s.done)+'</td>'
+     +'<td>'+riskPill(s.risk)+'</td>'
+     +'<td><button class="b b-sm" data-go="profile" data-id="'+s.id+'">الملف</button></td></tr>';
+  }).join("");
+  return '<h1>الطلاب</h1><p class="sub">٥١ طالباً نشطاً · معروض هنا ٤ للنموذج</p>'
+   +'<div class="card"><div class="tw"><table><thead><tr><th>الطالب</th><th>الدولة</th><th>المعلم</th><th>الحضور</th><th>خطة الشهر</th><th>الحالة</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+
+/* ══════════════ شاشات ولي الأمر ══════════════ */
+function pHome(){
+  var s = stu(1);
+  return '<div class="parent"><h1>متابعة ابني</h1><p class="sub">كل ما يخص أحمد في مكان واحد</p>'
+   +'<div class="hero-p"><div class="nm">أحمد محمد</div><div class="mt">المستوى المتوسط · مع الشيخ محمد عبد الرحمن</div>'
+   +'<div class="bar"><i style="width:'+s.done+'%"></i></div><div class="pct">أتمّ '+s.done+'٪ من خطة هذا الشهر</div></div>'
+   +'<div class="card"><h2>الحلقة القادمة</h2>'
+   +'<div class="box"><div class="t">الموعد</div><div class="v">اليوم ٠٤:٠٠ م بتوقيت مكة</div></div>'
+   +'<div class="box"><div class="t">المطلوب تحضيره</div><div class="v">تسميع البقرة ١–٢٠</div></div>'
+   +'<button class="b b-gold" style="width:100%">دخول الحلقة</button></div>'
+   +'<div class="card"><h2>آخر ملاحظة من المعلم</h2><div class="note">'+s.note+'</div>'
+   +'<button class="b b-sm" data-go="report" style="margin-top:12px">التقرير الكامل</button></div>'
+   +'<div class="card"><h2>هل عندك سؤال؟</h2><p class="sub" style="margin:0 0 12px">المشرف يرد خلال ساعات العمل.</p>'
+   +'<button class="b b-main">راسل المشرف</button></div></div>';
+}
+
+function pReport(){
+  var s = stu(1);
+  return '<div class="parent"><h1>تقرير حلقة ٢٩ أغسطس</h1><p class="sub">أرسله الشيخ محمد عبد الرحمن · ٠٥:٠٠ م</p>'
+   +'<div class="card"><h2>ما تم في الحلقة</h2>'
+   +'<div class="tw"><table><tbody>'
+   +'<tr><td>التسميع</td><td>البقرة ٢٦ – ٣٠</td><td><span class="pill p-ok">ممتاز</span></td></tr>'
+   +'<tr><td>الحفظ الجديد</td><td>البقرة ٣١ – ٣٥</td><td><span class="pill p-ok">ممتاز</span></td></tr>'
+   +'<tr><td>المراجعة</td><td>البقرة ١ – ٣٠</td><td><span class="pill p-wait">جيد</span></td></tr>'
+   +'</tbody></table></div></div>'
+   +'<div class="card"><h2>ملاحظة المعلم</h2><div class="note">'+s.note+'</div></div>'
+   +'<div class="card"><h2>المطلوب في الحلقة القادمة</h2>'
+   +box("حفظ جديد","البقرة ٣٦ – ٤٠")+box("مراجعة","البقرة ٢٠ – ٣٠")
+   +'<p class="hint">يساعد كثيراً أن يسمع الطفل المقطع مرة قبل الحلقة.</p></div></div>';
+}
+
+function pAttend(){
+  var s = stu(1);
+  var days = s.attend.map(function(a,i){
+    return '<span class="day '+(a=="on"?"on":"off")+'">'+(i+1)+'</span>';
+  }).join("");
+  var miss = s.attend.filter(function(a){return a=="off"}).length;
+  return '<div class="parent"><h1>سجل الحضور</h1><p class="sub">آخر ٨ حلقات</p>'
+   +'<div class="kpis">'+kpi("حضر",8-miss)+kpi("غاب",miss,miss>1?"warn":"")+kpi("نسبة الحضور",Math.round((8-miss)/8*100)+"٪")+'</div>'
+   +'<div class="card"><h2>الحلقات</h2><div class="days">'+days+'</div>'
+   +'<p class="hint">الأخضر حضور، والأحمر غياب. الغياب بعذر يُعوَّض في نفس الأسبوع.</p></div></div>';
+}
+
+/* ══════════════ عناصر مشتركة ══════════════ */
+function kpi(l,v,c){ return '<div class="kpi '+(c||"")+'"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>' }
+function fld(l,i){ return '<div><label>'+l+'</label>'+i+'</div>' }
+function box(t,v){ return '<div class="box"><div class="t">'+t+'</div><div class="v">'+v+'</div></div>' }
+function bar(p,c){ return '<div class="bar '+(c||"")+'"><i style="width:'+p+'%"></i></div>' }
+function met(l,v,p,c){ return '<div style="margin-bottom:16px"><div class="row" style="justify-content:space-between"><span>'+l+'</span><b>'+v+'</b></div>'+bar(p,c)+'</div>' }
+function riskPill(r){
+  return r=="ok" ? '<span class="pill p-ok">منتظم</span>'
+       : r=="warn" ? '<span class="pill p-wait">يحتاج متابعة</span>'
+       : '<span class="pill p-bad">خطر تسرّب</span>';
+}
+function alertHtml(a){
+  return '<div class="alert a-'+a.t+'"><span class="dot"></span><span><b>'+a.h+'</b><br>'+a.p+'</span></div>';
+}
+
+/* ══════════════ الربط ══════════════ */
+function bind(){
+  Array.prototype.forEach.call(document.querySelectorAll("[data-go]"), function(b){
+    b.onclick = function(){ go(b.dataset.go, b.dataset.id) };
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-start]"), function(b){
+    b.onclick = function(){ S.sid = +b.dataset.start; S.form = {}; go("session") };
+  });
+  var rate = $("rate");
+  if(rate){
+    Array.prototype.forEach.call(rate.children, function(b){
+      b.onclick = function(){
+        Array.prototype.forEach.call(rate.children,function(x){x.setAttribute("aria-pressed","false")});
+        b.setAttribute("aria-pressed","true");
+        S.form.rate = b.dataset.r;
+        $("rateErr").classList.add("hidden");
+      };
+    });
+  }
+  var note = $("f_note");
+  if(note) note.addEventListener("input", function(){ $("noteErr").classList.add("hidden") });
+
+  var fin = $("finish");
+  if(fin) fin.onclick = function(){
+    var n = $("f_note").value.trim();
+    if(!n){ $("noteErr").classList.remove("hidden"); $("f_note").focus(); return }
+    var s = stu(S.sid);
+    s.note = esc(n);
+    s.log.unshift({d:"٢٩ أغسطس",t:"تسميع "+$("f_from").value+"–"+$("f_to").value,r:S.form.rate||"ممتاز"});
+    s.newFrom = +$("n_from").value; s.newTo = +$("n_to").value;
+    s.done = Math.min(100, s.done + 6);
+    DB.today.forEach(function(r){ if(r.sid==s.id) r.state = "تمت" });
+    go("day");
+  };
+}
+
+render();
+
+/* ══════════ تثبيت التطبيق على الجهاز ══════════ */
+(function(){
+  var bar=$("installBar"), btn=$("installBtn"), txt=$("installTxt"), no=$("installNo");
+  var deferred=null, dismissed=false;
+
+  // مثبَّت بالفعل؟ لا نعرض شيئاً
+  var standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+  no.onclick=function(){ dismissed=true; bar.classList.add("hidden") };
+
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault(); deferred=e;
+    if(!standalone && !dismissed) bar.classList.remove("hidden");
+  });
+
+  btn.onclick=function(){
+    if(!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.then(function(){ deferred=null; bar.classList.add("hidden") });
+  };
+
+  // أجهزة آبل لا تدعم زر التثبيت، فنعرض التعليمات
+  if(isIOS && !standalone){
+    txt.textContent = 'للتثبيت على الآيفون: اضغط زر المشاركة ثم "إضافة إلى الشاشة الرئيسية"';
+    btn.classList.add("hidden");
+    bar.classList.remove("hidden");
+  }
+
+  if("serviceWorker" in navigator){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){ /* يعمل الموقع عادياً بدونه */ });
+    });
+  }
+})();
+</script>
+</body>
+</html>
